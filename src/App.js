@@ -7,7 +7,7 @@ const App = () => {
   const [wines,setWines] = useState('');
     if(!wines){
       (async () => {
-        const request = await fetch('http://localhost:9000/wines');
+        const request = await fetch('https://d52bdf6a7379.ngrok.io/wines');
         const data = await request.json()
         setWines(data)
       })();
@@ -16,7 +16,7 @@ const App = () => {
     const postWine = (name,date) => {
       if (typeof(name) === "string" && typeof(date) === "string") {
         (async () => {
-          const request = await fetch('http://localhost:9000/wines/', {
+          const request = await fetch('https://d52bdf6a7379.ngrok.io/wines/', {
             method: "POST",
             headers: {
               "Content-Type": "application/json",

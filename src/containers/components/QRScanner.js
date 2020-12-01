@@ -15,7 +15,7 @@ const QRScanner = () => {
       decodeImageFromBase64(imageSrc,function(decodedInformation){
         console.log(decodedInformation);
         (async ()=> {
-            const response = await fetch(`http://localhost:9000/scan/${decodedInformation}`);
+            const response = await fetch(`https://d52bdf6a7379.ngrok.io/scan/${decodedInformation}`);
             const wine = await response.json();
             setWine(wine);
         })()
