@@ -1,24 +1,39 @@
-import logo from './logo.svg';
+import React, { useState } from 'react'
 import './App.css';
+import WineContainer from './containers/WineContainer'
+import Navigation from './containers/Navigation.js'
 
-function App() {
+const App = () => {
+  const [wines,setWines] = useState('');
+    if(!wines){
+      (async () => {
+        const request = await fetch('http://localhost:9000/wines');
+        const data = await request.json()
+        setWines(data)
+      })();
+    }
+
+    const postWine = (name,date) => {
+      if (typeof(name) === "string" && typeof(date) === "string") {
+        (async () => {
+          const request = await fetch('http://localhost:9000/wines/', {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "Accept": "application/json"
+            },
+            body: JSON.stringify({name,drink_date:date})
+          });
+          const data = await request.json()
+          setWines([...wines,data])
+        })();
+      }
+    } 
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <Navigation />
+      {wines && <WineContainer wines={wines} postWine={postWine} />}
+    </>
   );
 }
 
